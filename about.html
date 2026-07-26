@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — St. John's Christian Church</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="config-banner" id="config-banner" style="display:none;"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="St. John's Christian Church logo" class="brand-logo">
+      <span class="brand-text">
+        <span class="name">St. John's Christian Church</span>
+        <span class="place">Groton, Connecticut</span>
+      </span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <nav class="main-nav">      <a href="about.html">About</a>
+      <a href="im-new.html">I'm New</a>
+      <a href="ministries.html">Ministries</a>
+      <a href="giving.html">Giving</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <a class="admin-btn" href="admin.html" aria-label="Staff login" title="Staff login">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.8"/></svg>
+    </a>
+  </div>
+</header>
+
+<section class="page-hero">
+  <span class="eyebrow">
+    <svg class="float-slow" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5v11" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 11h9" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 14c0 4.14 3.36 6.5 7.5 6.5s7.5-2.36 7.5-6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    About Us
+  </span>
+  <h1>Our Story &amp; What We Believe</h1>
+  <p>Rooted in scripture, gathered as family, anchored in hope.</p>
+</section>
+
+<!-- ============ OUR STORY ============ -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <h2>How St. John's Began</h2>
+    </div>
+    <div class="about-grid reveal-fade" style="grid-template-columns:1fr;max-width:760px;margin-left:auto;margin-right:auto;">
+      <div class="about-copy">
+        <p><strong>[Replace with your church's real founding story.]</strong> For example: St. John's Christian Church was founded by a small group of families in Groton who began meeting in a living room for prayer and Bible study. As the congregation grew, that gathering became a church home — one still committed today to the same simple mission: know Christ, and make Him known.</p>
+        <p>Add details here about your founding pastor, the year you were established, a milestone building or move, and anything that captures what makes your congregation's history distinct.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BELIEFS ============ -->
+<section class="section-alt blob-field">
+  <div class="blob" style="width:380px;height:380px;top:-100px;right:-120px;background:var(--foam);"></div>
+  <div class="container">
+    <div class="section-head reveal">
+      <h2>What We Believe</h2>
+      <p>The core convictions that shape everything we do.</p>
+    </div>
+    <div class="beliefs-grid reveal-group">
+      <div class="belief-card reveal-fade">
+        <h3>The Scriptures</h3>
+        <p>[Replace] We believe the Bible is the inspired, authoritative Word of God.</p>
+      </div>
+      <div class="belief-card reveal-fade">
+        <h3>The Trinity</h3>
+        <p>[Replace] We believe in one God, eternally existing in three persons: Father, Son, and Holy Spirit.</p>
+      </div>
+      <div class="belief-card reveal-fade">
+        <h3>Salvation</h3>
+        <p>[Replace] We believe salvation is a gift of God's grace, received through faith in Jesus Christ.</p>
+      </div>
+      <div class="belief-card reveal-fade">
+        <h3>The Church</h3>
+        <p>[Replace] We believe the church is the body of Christ, called to worship, discipleship, and service.</p>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:22px;font-size:0.85rem;color:#6b7a84;">Replace each card above with your congregation's actual statement of faith.</p>
+  </div>
+</section>
+
+<!-- ============ CHURCH CALENDAR ============ -->
+<section id="calendar">
+  <div class="container">
+    <div class="section-head reveal">
+      <h2>Upcoming on the Calendar</h2>
+      <p>Managed by the church office — updated right from the staff dashboard.</p>
+    </div>
+    <div class="calendar-list" id="calendar-list">
+      <p class="empty-state">Loading upcoming events…</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>St. John's Christian Church · 123 Thames St, Groton, CT 06340 · (860) 555-0123</p>
+  <p>&copy; <span class="footer-year"></span> St. John's Christian Church. All are welcome.</p>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

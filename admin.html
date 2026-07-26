@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff Dashboard — St. John's Christian Church</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-body">
+
+<!-- Config warning: shown if Firebase hasn't been set up yet -->
+<div class="modal-backdrop open" id="not-configured-backdrop" style="z-index:210;display:none;">
+  <div class="modal" style="max-width:440px;">
+    <h3>Firebase Isn't Connected Yet</h3>
+    <p>The staff dashboard needs Firebase (for login and storing members/events) before it can be used. Open <strong>SETUP.md</strong> in the project files for a step-by-step walkthrough, then refresh this page.</p>
+    <a href="index.html" class="btn btn-primary" style="width:100%;text-align:center;">Back to the Website</a>
+  </div>
+</div>
+
+<!-- Gate: shown until Firebase confirms the staff member is logged in -->
+<div class="modal-backdrop open" id="gate-backdrop" style="z-index:200;">
+  <div class="modal">
+    <h3>Staff Access</h3>
+    <p>Sign in with your church office account to continue.</p>
+    <form id="gate-form">
+      <input type="email" id="gate-email" placeholder="Email" autocomplete="username" required>
+      <input type="password" id="gate-password" placeholder="Password" autocomplete="current-password" required>
+      <p class="error-msg" id="gate-error"></p>
+      <button type="submit" class="btn btn-primary">Sign In</button>
+    </form>
+    <p style="margin-top:14px;"><a href="index.html" style="font-size:0.85rem;color:var(--harbor);">&larr; Back to the church website</a></p>
+  </div>
+</div>
+
+<div class="admin-shell" id="admin-shell" style="visibility:hidden;">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="admin-sidebar">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="" class="brand-logo">
+      <span class="brand-text"><span class="name">St. John's</span></span>
+    </a>
+
+    <button class="admin-nav-btn active" data-panel="dashboard">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg>
+      Dashboard
+    </button>
+    <button class="admin-nav-btn" data-panel="members">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.2" stroke="currentColor" stroke-width="1.6"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="9" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M15 20c.2-2.6 1.8-4.5 4-5" stroke="currentColor" stroke-width="1.6"/></svg>
+      Members
+    </button>
+    <button class="admin-nav-btn" data-panel="events">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Baptisms &amp; Milestones
+    </button>
+    <button class="admin-nav-btn" data-panel="calendar">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="14" r="1.2" fill="currentColor"/><circle cx="14" cy="14" r="1.2" fill="currentColor"/></svg>
+      Church Calendar
+    </button>
+    <button class="admin-nav-btn" data-panel="forms">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.6"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.6"/></svg>
+      Connect Cards &amp; Contact
+    </button>
+    <button class="admin-nav-btn" data-panel="settings">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v2.2M12 18.8V21M21 12h-2.2M5.2 12H3M18.4 5.6l-1.5 1.5M7.1 16.9l-1.5 1.5M18.4 18.4l-1.5-1.5M7.1 7.1L5.6 5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Settings
+    </button>
+
+    <div class="spacer"></div>
+    <button class="admin-nav-btn logout-btn" id="logout-btn">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Log out
+    </button>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="admin-main">
+
+    <div class="admin-topbar">
+      <h1 id="panel-title">Dashboard</h1>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="global-search" placeholder="Type a name to cross-reference members &amp; events…" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="panel" id="search-results-panel" style="display:none;">
+      <div class="panel-head"><h2>Search Results</h2></div>
+      <div class="results-list" id="search-results-list"></div>
+    </div>
+
+    <!-- ---------- DASHBOARD PANEL ---------- -->
+    <section class="panel-group" id="panel-dashboard">
+      <div class="stat-row">
+        <div class="stat-card"><div class="num" id="stat-members">0</div><div class="label">Total Members</div></div>
+        <div class="stat-card"><div class="num" id="stat-baptized">0</div><div class="label">Baptized</div></div>
+        <div class="stat-card"><div class="num" id="stat-pending">0</div><div class="label">Awaiting Baptism</div></div>
+        <div class="stat-card"><div class="num" id="stat-events">0</div><div class="label">Milestones on Record</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Recently Added Members</h2></div>
+        <div id="recent-members-list"><p class="empty-state">No members yet — add your first one from the Members tab.</p></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Recent Milestones</h2></div>
+        <div id="recent-events-list"><p class="empty-state">No milestones logged yet.</p></div>
+      </div>
+    </section>
+
+    <!-- ---------- MEMBERS PANEL ---------- -->
+    <section class="panel-group" id="panel-members" style="display:none;">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>All Members</h2>
+          <button class="btn btn-primary" id="add-member-btn">+ Add Member</button>
+        </div>
+        <div id="members-table-wrap">
+          <p class="empty-state">No members yet. Click "Add Member" to create your first record.</p>
+        </div>
+      </div>
+
+      <div class="panel" id="member-form-panel" style="display:none;">
+        <div class="panel-head"><h2 id="member-form-title">Add Member</h2></div>
+        <form id="member-form">
+          <input type="hidden" id="m-id">
+          <div class="form-grid">
+            <div>
+              <label for="m-name">Full Name</label>
+              <input type="text" id="m-name" required>
+            </div>
+            <div>
+              <label for="m-since">Member Since</label>
+              <input type="date" id="m-since">
+            </div>
+            <div>
+              <label for="m-email">Email</label>
+              <input type="email" id="m-email">
+            </div>
+            <div>
+              <label for="m-phone">Phone</label>
+              <input type="tel" id="m-phone">
+            </div>
+            <div class="full">
+              <label for="m-address">Address</label>
+              <input type="text" id="m-address">
+            </div>
+            <div>
+              <label for="m-baptism-date">Baptism Date (if baptized)</label>
+              <input type="date" id="m-baptism-date">
+              <div class="check-row">
+                <input type="checkbox" id="m-baptized">
+                <label for="m-baptized" style="margin:0;">Already baptized</label>
+              </div>
+              <div class="check-row">
+                <input type="checkbox" id="m-wants-baptism">
+                <label for="m-wants-baptism" style="margin:0;">Wants to be baptized</label>
+              </div>
+            </div>
+            <div class="full">
+              <label for="m-notes">Notes</label>
+              <textarea id="m-notes" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Member</button>
+            <button type="button" class="btn btn-outline" id="member-form-cancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ---------- MILESTONES PANEL ---------- -->
+    <section class="panel-group" id="panel-events" style="display:none;">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Baptisms, Weddings, Funerals &amp; Dedications</h2>
+          <button class="btn btn-primary" id="add-event-btn">+ Add Milestone</button>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+          <button class="btn btn-outline event-filter active" data-type="all" style="padding:8px 16px;font-size:0.82rem;">All</button>
+          <button class="btn btn-outline event-filter" data-type="baptism" style="padding:8px 16px;font-size:0.82rem;">Baptisms</button>
+          <button class="btn btn-outline event-filter" data-type="wedding" style="padding:8px 16px;font-size:0.82rem;">Weddings</button>
+          <button class="btn btn-outline event-filter" data-type="funeral" style="padding:8px 16px;font-size:0.82rem;">Funerals</button>
+          <button class="btn btn-outline event-filter" data-type="dedication" style="padding:8px 16px;font-size:0.82rem;">Dedications</button>
+        </div>
+
+        <div id="events-table-wrap">
+          <p class="empty-state">No milestones logged yet. Click "Add Milestone" to record a baptism, wedding, funeral, or dedication.</p>
+        </div>
+      </div>
+
+      <div class="panel" id="event-form-panel" style="display:none;">
+        <div class="panel-head"><h2 id="event-form-title">Add Milestone</h2></div>
+        <form id="event-form">
+          <input type="hidden" id="e-id">
+          <div class="form-grid">
+            <div>
+              <label for="e-type">Event Type</label>
+              <select id="e-type">
+                <option value="baptism">Baptism</option>
+                <option value="wedding">Wedding</option>
+                <option value="funeral">Funeral</option>
+                <option value="dedication">Dedication</option>
+              </select>
+            </div>
+            <div>
+              <label for="e-date">Date</label>
+              <input type="date" id="e-date">
+            </div>
+            <div class="full">
+              <label for="e-person">Person's Name</label>
+              <input type="text" id="e-person" list="member-name-options" placeholder="Start typing — existing members will suggest" required>
+              <datalist id="member-name-options"></datalist>
+            </div>
+            <div class="full">
+              <label for="e-notes">Notes</label>
+              <textarea id="e-notes" rows="3" placeholder="Officiant, location, family members involved, etc."></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Milestone</button>
+            <button type="button" class="btn btn-outline" id="event-form-cancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ---------- CHURCH CALENDAR PANEL ---------- -->
+    <section class="panel-group" id="panel-calendar" style="display:none;">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Church Calendar</h2>
+          <button class="btn btn-primary" id="add-calendar-btn">+ Add Calendar Event</button>
+        </div>
+        <p style="font-size:0.86rem;color:#5b6b76;margin-top:-8px;margin-bottom:16px;">Anything added here shows up publicly on the About page — no login needed for visitors to see it.</p>
+        <div id="calendar-table-wrap">
+          <p class="empty-state">Nothing on the calendar yet. Add your first event.</p>
+        </div>
+      </div>
+
+      <div class="panel" id="calendar-form-panel" style="display:none;">
+        <div class="panel-head"><h2 id="calendar-form-title">Add Calendar Event</h2></div>
+        <form id="calendar-form">
+          <input type="hidden" id="cal-id">
+          <div class="form-grid">
+            <div class="full">
+              <label for="cal-title">Event Title</label>
+              <input type="text" id="cal-title" required>
+            </div>
+            <div>
+              <label for="cal-date">Date</label>
+              <input type="date" id="cal-date" required>
+            </div>
+            <div>
+              <label for="cal-time">Time</label>
+              <input type="text" id="cal-time" placeholder="e.g. 10:00 AM">
+            </div>
+            <div class="full">
+              <label for="cal-location">Location</label>
+              <input type="text" id="cal-location" placeholder="e.g. Fellowship Hall">
+            </div>
+            <div class="full">
+              <label for="cal-description">Description</label>
+              <textarea id="cal-description" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Event</button>
+            <button type="button" class="btn btn-outline" id="calendar-form-cancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ---------- FORMS (Connect Card / Contact) PANEL ---------- -->
+    <section class="panel-group" id="panel-forms" style="display:none;">
+      <div class="panel">
+        <div class="panel-head"><h2>Connect Card &amp; Contact Submissions</h2></div>
+        <p style="font-size:0.9rem;color:#4c3a5c;">
+          Connect Card (from the "I'm New" page) and Contact Form (from the homepage) submissions are sent
+          straight to a Google Sheet via Apps Script, so your team can view, sort, and follow up on them using
+          tools you already know.
+        </p>
+        <div id="sheet-link-wrap" style="margin-top:14px;"></div>
+      </div>
+    </section>
+
+    <!-- ---------- SETTINGS PANEL ---------- -->
+    <section class="panel-group" id="panel-settings" style="display:none;">
+      <div class="panel">
+        <div class="panel-head"><h2>Account</h2></div>
+        <p style="font-size:0.9rem;color:#4c3a5c;">Signed in as <strong id="current-user-email">—</strong>.</p>
+        <p style="font-size:0.86rem;color:#5b6b76;">To add another staff member, or to change your password, go to your Firebase console ▸ Authentication ▸ Users. See SETUP.md for details.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>About This System</h2></div>
+        <p style="font-size:0.9rem;color:#4c3a5c;">
+          Members, milestones, and the church calendar are stored in Firebase (Firestore), so your team can
+          manage them from any computer once signed in. Connect Card and Contact submissions go to a Google
+          Sheet instead, via Apps Script.
+        </p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

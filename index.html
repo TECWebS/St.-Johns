@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>St. John's Christian Church — Groton, CT</title>
+<meta name="description" content="St. John's Christian Church in Groton, Connecticut. Join us for worship, fellowship, and community.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="config-banner" id="config-banner" style="display:none;"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="St. John's Christian Church logo" class="brand-logo">
+      <span class="brand-text">
+        <span class="name">St. John's Christian Church</span>
+        <span class="place">Groton, Connecticut</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+
+    <nav class="main-nav">      <a href="about.html">About</a>
+      <a href="im-new.html">I'm New</a>
+      <a href="ministries.html">Ministries</a>
+      <a href="giving.html">Giving</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <a class="admin-btn" href="admin.html" aria-label="Staff login" title="Staff login">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.8"/>
+      </svg>
+    </a>
+  </div>
+</header>
+
+<!-- ============ HERO / VERSE OF THE DAY ============ -->
+<section class="hero" id="top">
+  <!-- ================================================================
+       HERO VIDEO — action needed:
+       Drop your own drone footage of Groton at assets/hero-video.mp4
+       (an aerial harbor/coastline shot works beautifully here) and,
+       optionally, a still frame at assets/hero-poster.jpg. Until then,
+       this gracefully falls back to the purple gradient behind it —
+       see SETUP.md for where to get footage shot or licensed.
+       ================================================================ -->
+  <div class="hero-media" id="hero-media">
+    <video autoplay muted loop playsinline poster="assets/hero-poster.jpg">
+      <source src="assets/hero-video.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <span class="eyebrow">
+      <svg class="float-slow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Verse of the Day
+    </span>
+    <p class="verse-text" id="verse-text">Loading today's verse…</p>
+    <p class="verse-ref" id="verse-ref"></p>
+    <div style="margin-top:32px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="im-new.html" class="btn btn-primary">I'm New Here</a>
+      <a href="giving.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:var(--white);">Give Online</a>
+    </div>
+  </div>
+  <svg class="hero-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="currentColor" d="M0,64L60,58.7C120,53,240,43,360,48C480,53,600,75,720,74.7C840,75,960,53,1080,48C1200,43,1320,53,1380,58.7L1440,64L1440,90L0,90Z"></path>
+  </svg>
+</section>
+
+<!-- ============ WELCOME STRIP ============ -->
+<section class="blob-field">
+  <div class="blob" style="width:420px;height:420px;top:-120px;left:-140px;background:var(--foam);"></div>
+  <div class="blob" style="width:340px;height:340px;bottom:-100px;right:-100px;background:var(--blush);"></div>
+  <div class="container">
+    <div class="section-head reveal">
+      <h2>Welcome Home</h2>
+      <p>A congregation in Groton, Connecticut, gathered around scripture, prayer, and one another. Whichever service you join, expect warm fellowship and a congregation that treats you like family from your very first visit.</p>
+    </div>
+    <div class="anchor-divider reveal">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="5" r="2.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5v11" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 11h9" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 14c0 4.14 3.36 6.5 7.5 6.5s7.5-2.36 7.5-6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </div>
+    <div class="give-grid reveal-group">
+      <div class="give-card reveal-fade">
+        <h3>New Here?</h3>
+        <p>Meet the pastor, get answers to common questions, and find everything you need for a first visit.</p>
+        <a href="im-new.html" class="btn btn-outline" style="margin-top:12px;">Start Here</a>
+      </div>
+      <div class="give-card reveal-fade">
+        <h3>Our Story &amp; Beliefs</h3>
+        <p>Read how St. John's began, what we believe, and see what's coming up on the church calendar.</p>
+        <a href="about.html" class="btn btn-outline" style="margin-top:12px;">Learn More</a>
+      </div>
+      <div class="give-card reveal-fade">
+        <h3>Get Involved</h3>
+        <p>Explore ministries for men, women, and children, plus upcoming community events.</p>
+        <a href="ministries.html" class="btn btn-outline" style="margin-top:12px;">See Ministries</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="section-alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <h2>Visit &amp; Connect</h2>
+      <p>We'd love to meet you. Reach out, or just come by this Sunday.</p>
+    </div>
+
+    <div class="contact-grid reveal-group">
+      <div class="reveal-fade">
+        <div class="info-card" style="margin-bottom:20px;">
+          <h3>Reach Us</h3>
+          <div class="info-row"><span>Address</span><span>123 Thames St, Groton, CT 06340</span></div>
+          <div class="info-row"><span>Phone</span><span>(860) 555-0123</span></div>
+          <div class="info-row"><span>Email</span><span>info@stjohnsgroton.org</span></div>
+          <p style="margin:14px 0 0;font-size:0.82rem;color:#6b7a84;">Replace with your real address, phone, and email.</p>
+        </div>
+        <div class="map-wrap">
+          <iframe
+            src="https://maps.google.com/maps?q=Groton%2C%20Connecticut&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            loading="lazy"
+            title="Map showing Groton, Connecticut"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+
+      <form class="contact-form reveal-fade" id="contact-form">
+        <div>
+          <label for="c-name">Name</label>
+          <input type="text" id="c-name" name="name" required>
+        </div>
+        <div>
+          <label for="c-email">Email</label>
+          <input type="email" id="c-email" name="email" required>
+        </div>
+        <div>
+          <label for="c-message">Message</label>
+          <textarea id="c-message" name="message" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="justify-self:start;">Send Message</button>
+        <p id="contact-status" style="font-size:0.88rem;color:#3f5f54;min-height:1.2em;"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <p>St. John's Christian Church · 123 Thames St, Groton, CT 06340 · (860) 555-0123</p>
+  <p>&copy; <span class="footer-year"></span> St. John's Christian Church. All are welcome.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
