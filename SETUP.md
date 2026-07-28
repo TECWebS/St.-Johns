@@ -43,57 +43,32 @@ minutes total, and do them in order.
    rules_version = '2';
    service cloud.firestore {
      match /databases/{database}/documents {
-       function isApprovedStaff() {
-         return request.auth != null && request.auth.token.email in [
-           'REPLACE_ME@example.com'
-         ];
-       }
        match /calendarEvents/{doc} {
          allow read: if true;
-         allow write: if isApprovedStaff();
+         allow write: if request.auth != null;
        }
        match /members/{doc} {
-         allow read, write: if isApprovedStaff();
+         allow read, write: if request.auth != null;
        }
        match /milestones/{doc} {
-         allow read, write: if isApprovedStaff();
+         allow read, write: if request.auth != null;
        }
      }
    }
    ```
-   **Important:** the email(s) inside that `in [...]` list must exactly match the
-   `ADMIN_EMAILS` list at the top of `app.js` — add one line per staff member, in quotes,
-   separated by commas. This list (not the one in `app.js`) is what actually protects your
-   data — the one in `app.js` just gives people a friendly error message.
 4. Click **Publish**. This makes the public calendar visible to any visitor, while member and
-   milestone records can only be read or changed by someone on your approved-staff list.
+   milestone records can only be read or changed by someone signed in.
 
-### Step 4 — Turn on staff login (Google Sign-In)
-The dashboard uses **"Sign in with Google"** rather than a separate church password — one less
-password for staff to remember, and Google handles the security of the login itself.
+### Step 4 — Turn on staff login (Authentication)
 1. In the left sidebar, click **Build ▸ Authentication**, then **Get started**.
-2. Under **Sign-in method**, click **Google**, toggle it **on**, choose a support email
-   (any email on the account works), and click **Save**.
-3. Click **Settings ▸ Authorized domains** (still within Authentication) and make sure the
-   domain you're hosting the site on is listed (e.g. `yourchurch.netlify.app` or your own
-   domain). `localhost` is included by default for testing.
-4. Open `app.js`, find the `ADMIN_EMAILS` list near the top, and replace the placeholder with
-   the real Google account email of every staff member who should have access — one per line,
-   in quotes, separated by commas:
-   ```js
-   const ADMIN_EMAILS = [
-     "pastor@gmail.com",
-     "officeadmin@gmail.com",
-   ];
-   ```
-5. Make sure that same list of emails is also pasted into the Firestore rules from Step 3
-   (the `isApprovedStaff()` function) — both lists need to match.
-6. To remove someone's access later, delete their email from both lists and re-publish the
-   Firestore rules.
+2. Under **Sign-in method**, enable **Email/Password** (the first option in the list).
+3. Go to the **Users** tab and click **Add user**. Enter the email and password each staff
+   member should use to log into the dashboard. Add one user per staff member who needs access.
+4. That's it — no password lives in the website's code anymore. To remove someone's access
+   later, delete their user here.
 
-Firebase is now fully connected. Open `admin.html`, click **Sign in with Google**, and — using
-one of the approved emails — you should land on the dashboard. Signing in with any other Google
-account will show a polite "not approved" message and won't get in.
+Firebase is now fully connected. Open `admin.html`, sign in with the email/password you just
+created, and you should see the dashboard.
 
 ---
 
