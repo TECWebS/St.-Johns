@@ -15,22 +15,35 @@
 
 // ---- Firebase (members, milestones, church calendar, staff login) ----
 const FIREBASE_CONFIG = {
-  apiKey: "REPLACE_ME",
-  authDomain: "REPLACE_ME.firebaseapp.com",
-  projectId: "REPLACE_ME",
-  storageBucket: "REPLACE_ME.appspot.com",
-  messagingSenderId: "REPLACE_ME",
-  appId: "REPLACE_ME",
+  apiKey: "AIzaSyBA1DixfrOnsTQAuzqokCsAP8KNjnPLd7w",
+  authDomain: "st-johns-christian-church.firebaseapp.com",
+  projectId: "st-johns-christian-church",
+  storageBucket: "st-johns-christian-church.firebasestorage.app",
+  messagingSenderId: "1015532852084",
+  appId: "1:1015532852084:web:ba3c1224809f8be4569221",
 };
 const FIREBASE_IS_CONFIGURED = !Object.values(FIREBASE_CONFIG).some(v => v.startsWith("REPLACE_ME"));
 
 // ---- Google Apps Script (Connect Card + Contact form -> Google Sheet) ----
-const APPS_SCRIPT_URL = "REPLACE_ME_WITH_YOUR_WEB_APP_URL";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzXzjD08CnVSJTHx67WPosJIYE2UwQ6q0DPOYqoThTckd2oivQNQrgSSUbe5kpceekCA/exec";
 const APPS_SCRIPT_IS_CONFIGURED = APPS_SCRIPT_URL !== "REPLACE_ME_WITH_YOUR_WEB_APP_URL";
 
 // Optional: paste the Google Sheet's own URL for a quick link in the admin dashboard.
-const CHURCH_SHEET_URL = "REPLACE_ME_WITH_YOUR_GOOGLE_SHEET_URL";
+const CHURCH_SHEET_URL = "https://docs.google.com/spreadsheets/d/1LZs3RNCsawB2qaZQ4zaVNPgEhJLE88GtbuGqmp6HUxI/edit?gid=0#gid=0";
 const CHURCH_SHEET_IS_CONFIGURED = CHURCH_SHEET_URL !== "REPLACE_ME_WITH_YOUR_GOOGLE_SHEET_URL";
+
+// ---- Approved staff logins (Google Sign-In) ----
+// Anyone with a Google account can technically click "Sign in with Google" —
+// this list is what actually decides who gets into the dashboard. Add every
+// staff member's real Gmail/Google-account email here, exactly as spelled.
+// IMPORTANT: this same list must also be pasted into your Firestore security
+// rules (see SETUP.md) — the check here is just for a friendly error message;
+// the Firestore rules are what actually protects your data.
+const ADMIN_EMAILS = [
+  "webtecstudio@gmail.com",
+  // "REPLACE_ME@example.com",  // add your 2nd approved Google email here
+  // "REPLACE_ME@example.com",  // add your 3rd approved Google email here
+];
 
 
 /* =========================================================
@@ -66,6 +79,21 @@ const SJCC = (() => {
   function login(email, password){
     if (!configured || !auth) return Promise.reject(new Error("Firebase isn't configured yet."));
     return auth.signInWithEmailAndPassword(email, password);
+  }
+
+  async function loginWithGoogle(){
+    if (!configured || !auth) throw new Error("Firebase isn't configured yet.");
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const result = await auth.signInWithPopup(provider);
+    const email = (result.user.email || "").toLowerCase();
+    const allowed = ADMIN_EMAILS.map(e => e.toLowerCase()).includes(email);
+    if (!allowed){
+      await auth.signOut();
+      const err = new Error("not-authorized");
+      err.isAuthorizationError = true;
+      throw err;
+    }
+    return result;
   }
   function logout(){ return configured && auth ? auth.signOut() : Promise.resolve(); }
   function currentUser(){ return configured && auth ? auth.currentUser : null; }
@@ -211,7 +239,7 @@ const SJCC = (() => {
   }
 
   return {
-    isConfigured, onAuthChange, login, logout, currentUser,
+    isConfigured, onAuthChange, login, loginWithGoogle, logout, currentUser,
     getMembers, saveMember, deleteMember, getMember,
     getEvents, saveEvent, deleteEvent,
     getCalendarEvents, saveCalendarEvent, deleteCalendarEvent,
@@ -432,9 +460,7 @@ function initAdminPage(){
 
   // ---------- Auth gate ----------
   const gateBackdrop = document.getElementById("gate-backdrop");
-  const gateForm = document.getElementById("gate-form");
-  const gateEmail = document.getElementById("gate-email");
-  const gatePassword = document.getElementById("gate-password");
+  const googleSigninBtn = document.getElementById("google-signin-btn");
   const gateError = document.getElementById("gate-error");
 
   SJCC.onAuthChange((user) => {
@@ -450,11 +476,22 @@ function initAdminPage(){
     }
   });
 
-  gateForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  googleSigninBtn.addEventListener("click", async () => {
     gateError.textContent = "";
-    try { await SJCC.login(gateEmail.value.trim(), gatePassword.value); }
-    catch (err){ gateError.textContent = "That email or password isn't right. Try again."; }
+    googleSigninBtn.disabled = true;
+    try {
+      await SJCC.loginWithGoogle();
+    } catch (err){
+      if (err && err.isAuthorizationError){
+        gateError.textContent = "That Google account isn't approved for staff access. Ask an admin to add your email.";
+      } else if (err && err.code === "auth/popup-closed-by-user"){
+        // they just closed the popup — no error needed
+      } else {
+        gateError.textContent = "Something went wrong signing in. Please try again.";
+      }
+    } finally {
+      googleSigninBtn.disabled = false;
+    }
   });
 
   document.getElementById("logout-btn").addEventListener("click", async () => {
