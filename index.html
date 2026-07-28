@@ -59,7 +59,6 @@
     </video>
   </div>
   <div class="hero-overlay"></div>
-  <div class="hero-shimmer"></div>
   <div class="hero-inner">
     <span class="eyebrow">
       <svg class="float-slow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -67,14 +66,19 @@
     </span>
     <p class="verse-text" id="verse-text">Loading today's verse…</p>
     <p class="verse-ref" id="verse-ref"></p>
-    <div style="margin-top:32px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+    <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;">
       <a href="im-new.html" class="btn btn-primary">I'm New Here</a>
-      <a href="giving.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:var(--white);">Give Online</a>
+      <a href="giving.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.6);color:var(--white);">Give Online</a>
+    </div>
+    <!-- Social links — placeholders. Swap the href="#" for your real
+         Facebook/Instagram/YouTube pages whenever you have them. -->
+    <div class="hero-social">
+      <a href="#" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H8v4h2v6h4v-6h3l1-4h-4v-2c0-.6.4-1 1-1z"/></svg></a>
+      <a href="#" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></a>
+      <a href="#" title="YouTube" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="6" width="19" height="12" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor"/></svg></a>
+      <a href="mailto:info@stjohnsgroton.org" title="Email" aria-label="Email"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
     </div>
   </div>
-  <svg class="hero-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
-    <path fill="currentColor" d="M0,64L60,58.7C120,53,240,43,360,48C480,53,600,75,720,74.7C840,75,960,53,1080,48C1200,43,1320,53,1380,58.7L1440,64L1440,90L0,90Z"></path>
-  </svg>
 </section>
 
 <!-- ============ WELCOME STRIP ============ -->
@@ -158,8 +162,37 @@
 
 <!-- ============ FOOTER ============ -->
 <footer class="site-footer">
-  <p>St. John's Christian Church · 346 Shennecossett Rd, Groton, CT 06340 · (860) 555-0123</p>
-  <p>&copy; <span class="footer-year"></span> St. John's Christian Church. All are welcome.</p>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="St. John's Christian Church logo" class="footer-logo">
+      <p class="footer-address">346 Shennecossett Rd<br>Groton, CT 06340<br>(860) 555-0123</p>
+      <!-- Social links — placeholders, same as the hero. Update with real URLs when ready. -->
+      <div class="footer-social">
+        <a href="#" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H8v4h2v6h4v-6h3l1-4h-4v-2c0-.6.4-1 1-1z"/></svg></a>
+        <a href="#" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></a>
+        <a href="#" title="YouTube" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="6" width="19" height="12" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor"/></svg></a>
+        <a href="mailto:info@stjohnsgroton.org" title="Email" aria-label="Email"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="about.html">About</a>
+      <a href="ministries.html">Ministries</a>
+      <a href="giving.html">Giving</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="im-new.html">I'm New</a>
+      <a href="index.html#contact">Contact Us</a>
+    </div>
+    <div class="footer-col">
+      <h4>Staff</h4>
+      <a href="admin.html">Staff Login</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; <span class="footer-year"></span> St. John's Christian Church. All are welcome.</p>
+  </div>
 </footer>
 
 <script src="app.js"></script>
