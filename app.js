@@ -40,7 +40,7 @@ const CHURCH_SHEET_IS_CONFIGURED = CHURCH_SHEET_URL !== "REPLACE_ME_WITH_YOUR_GO
 // rules (see SETUP.md) — the check here is just for a friendly error message;
 // the Firestore rules are what actually protects your data.
 const ADMIN_EMAILS = [
-  "webtecstudio@gmail.com",
+  "webstudiotec@gmail.com",
   // "REPLACE_ME@example.com",  // add your 2nd approved Google email here
   // "REPLACE_ME@example.com",  // add your 3rd approved Google email here
 ];
