@@ -598,14 +598,41 @@ section{ padding: 84px 0; }
 
 /* ---------- Secondary page hero ---------- */
 .page-hero{
+  position: relative;
   background: linear-gradient(180deg, var(--ink) 0%, var(--harbor-deep) 100%);
   color: var(--white);
   padding: 56px 24px 68px;
   text-align: center;
+  overflow: hidden;
 }
-.page-hero .eyebrow{ margin-bottom: 14px; }
-.page-hero h1{ font-size: clamp(1.9rem, 4vw, 2.6rem); color: var(--white); }
-.page-hero p{ color: rgba(255,255,255,0.78); max-width: 560px; margin: 0 auto; }
+.page-hero .eyebrow{ margin-bottom: 14px; position: relative; z-index: 2; }
+.page-hero h1{ font-size: clamp(1.9rem, 4vw, 2.6rem); color: var(--white); position: relative; z-index: 2; }
+.page-hero p{ color: rgba(255,255,255,0.78); max-width: 560px; margin: 0 auto; position: relative; z-index: 2; }
+
+/* Photo variant — a real photo behind a purple overlay, with a slow,
+   gentle zoom/drift instead of the flat gradient. Reduced-motion users
+   get the final framing with no movement (handled by the global rule). */
+.page-hero.has-photo{ min-height: 380px; display:flex; align-items:center; justify-content:center; }
+.page-hero-media{
+  position:absolute;
+  inset:0;
+  background-size: cover;
+  background-position: center;
+  z-index:0;
+  animation: kenBurns 20s ease-in-out infinite alternate;
+}
+@keyframes kenBurns{
+  0% { transform: scale(1.04) translate(0, 0); }
+  100% { transform: scale(1.14) translate(-1.2%, -1%); }
+}
+.page-hero-overlay{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(199,154,61,0.22), transparent 55%),
+    linear-gradient(180deg, rgba(58,31,82,0.62) 0%, rgba(58,31,82,0.72) 55%, rgba(76,42,120,0.88) 100%);
+}
 
 /* ---------- Sub-nav pills (used on Ministries) ---------- */
 .subnav{
